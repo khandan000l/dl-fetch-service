@@ -34,7 +34,8 @@ def pick_formats(info):
 
 def extract(url):
     opts = {"quiet": True, "no_warnings": True, "skip_download": True, "noplaylist": True,
-            "socket_timeout": 20, "retries": 2}
+            "socket_timeout": 20, "retries": 2,
+            "extractor_args": {"youtube": {"player_client": ["android", "ios", "tv", "web"]}}}
     with yt_dlp.YoutubeDL(opts) as ydl:
         return ydl.extract_info(url, download=False)
 
@@ -54,7 +55,7 @@ def fetch(req: Req, x_fetch_token: str = Header(default="")):
         try:
             oe = json.loads(urllib.request.urlopen(
                 urllib.request.Request("https://open.spotify.com/oembed?url=" + urllib.parse.quote(url, safe=""),
-                                       headers={"User-Agent": "Mozilla/5.0"}), timeout=15).read().decode())
+                    headers={"User-Agent": "Mozilla/5.0"}), timeout=15).read().decode())
             title = oe.get("title") or ""
             if not title:
                 return {"ok": False, "code": "no_media"}

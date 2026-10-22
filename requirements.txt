@@ -1,3 +1,11 @@
+# Fetch service Python deps — DOCKER runtime (repo root requirements.txt).
+# The bgutil plugin pin MUST match the provider server tag in the
+# Dockerfile (BGUTIL_VERSION) — the plugin refuses mismatched servers.
 fastapi
-uvicorn[standard]
-yt-dlp
+uvicorn
+pydantic
+# bgutil requires yt-dlp >= 2025.05.22; unpinned so deploys keep the
+# extractor fresh (project posture), the floor documents the minimum.
+yt-dlp>=2025.05.22
+gallery-dl
+bgutil-ytdlp-pot-provider==2.0.2
